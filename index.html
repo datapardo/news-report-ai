@@ -64,26 +64,35 @@
     <img src="https://datapardo.github.io/news-report-ai/s5.png" class="slide" alt="Slide 5">
 
 
-    <div class="nav-left" onclick="changeSlide(-1)"></div>
+<div class="nav-left" onclick="changeSlide(-1)"></div>
     <div class="nav-right" onclick="changeSlide(1)"></div>
-    <div class="counter"><span id="current">1</span> / 9</div>
+    
+    <!-- El ID cambió a counter-text para manejar todo desde JavaScript -->
+    <div class="counter" id="counter-text"></div>
 
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
-        const counter = document.getElementById('current');
+        const counter = document.getElementById('counter-text');
+
+        // Inicializa el contador automáticamente contando las etiquetas <img>
+        counter.innerText = `1 / ${slides.length}`;
 
         function changeSlide(direction) {
             slides[currentSlide].classList.remove('active');
             currentSlide += direction;
             
+            // Lógica para que el carrusel sea infinito
             if (currentSlide >= slides.length) currentSlide = 0;
             if (currentSlide < 0) currentSlide = slides.length - 1;
             
             slides[currentSlide].classList.add('active');
-            counter.innerText = currentSlide + 1;
+            
+            // Actualiza el texto con el número de diapositiva actual y el total
+            counter.innerText = `${currentSlide + 1} / ${slides.length}`;
         }
 
+        // Permitir pasar las diapositivas con las flechas del teclado o la barra espaciadora
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
             if (e.key === 'ArrowLeft') changeSlide(-1);
